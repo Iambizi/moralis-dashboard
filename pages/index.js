@@ -1,10 +1,22 @@
-import { Flex, Text, Button } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  Button,
+  Box,
+  Tabs,
+  Tab,
+  TabList,
+  TabPanels,
+  TabPanel,
+} from "@chakra-ui/react";
 import Head from "next/head";
 import { useMoralis } from "react-moralis";
+import Header from "../components/header";
+import Profile from "../components/profile";
 
 const Home = () => {
-  const { isAuthenticated, authenticate } = useMoralis();
-  console.log(isAuthenticated);
+  const { isAuthenticated, authenticate, user, logout, isLoggingOut } =
+    useMoralis();
   if (!isAuthenticated) {
     return (
       <>
@@ -26,7 +38,11 @@ const Home = () => {
             colorScheme="purple"
             size="lg"
             mt="6"
-            onClick={() => authenticate()}
+            onClick={() =>
+              authenticate({
+                signingMessage: "Sign to login to Dasboard3",
+              })
+            }
           >
             Login with Metamask
           </Button>
@@ -34,16 +50,36 @@ const Home = () => {
       </>
     );
   }
-  return(
+  return (
     <>
       <Head>
         <title>Dashboard3</title>
       </Head>
-      <Flex>
-        
+      <Flex direction="column" width="100vw" height="100vh">
+        <Header user={user} logout={logout} isLoggingOut={isLoggingOut} />
+        <Box flex="1" bg="purple.100" px="44" py="20">
+          <Tabs size="lg" colorScheme="purple" variant="enclosed">
+            <TabList>
+              <Tab fontWeight="bold">Profile</Tab>
+              <Tab fontWeight="bold">Balance</Tab>
+              <Tab fontWeight="bold">Transactions</Tab>
+              <Tab fontWeight="bold">NFTS</Tab>
+              <Tab fontWeight="bold">Send ETH</Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel>
+                <Profile user={user} />
+              </TabPanel>
+              <TabPanel>Balance</TabPanel>
+              <TabPanel>Transactions</TabPanel>
+              <TabPanel>NFTS</TabPanel>
+              <TabPanel>Send ETH</TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Box>
       </Flex>
     </>
-  )
+  );
 };
 
 export default Home;
