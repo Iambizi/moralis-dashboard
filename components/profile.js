@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { FormControl, FormLabel, Text, Input, Button } from "@chakra-ui/react";
 import CustomContainer from "./customContainer";
+import { useMoralis } from "react-moralis";
 
 const Profile = ({ user }) => {
   const [input, setInput] = useState("");
-  console.log(input);
+  const { setUserData, isUserUpdating } = useMoralis();
   return (
     <>
       <CustomContainer>
@@ -14,18 +15,27 @@ const Profile = ({ user }) => {
         <Text>
           <b>💵&nbsp; Wallet Address: {user.get("ethAddress")}</b>
         </Text>
-        <form>
-          <FormControl>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (input.trim() !== "") {
+                setUserData({
+                    username: input,
+                }).then(()=>setInput(''))
+            }
+          }}
+        >
+          <FormControl mt="6" mb="6">
             <FormLabel htmlFor="username">Set a new username</FormLabel>
             <Input
               id="username"
               type="text"
               placeholder="ex. busy metal"
               value={input}
-              onChange={e=>setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
             />
           </FormControl>
-          <Button type="submit" colorScheme="purple">
+          <Button type="submit" colorScheme="purple" disabled={isUserUpdating}>
             ✅&nbsp; Change Username
           </Button>
         </form>
