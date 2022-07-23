@@ -15,6 +15,7 @@ import Header from "../components/header";
 import Profile from "../components/profile";
 import Balance from "../components/balance";
 import Transactions from "../components/Transactions";
+import NFTS from "../components/nfts"
 
 const Home = () => {
   const { isAuthenticated, authenticate, user, logout, isLoggingOut } =
@@ -76,7 +77,7 @@ const Home = () => {
                 <Balance user={user} />
               </TabPanel>
               <TabPanel><Transactions user={user} /></TabPanel>
-              <TabPanel>NFTS</TabPanel>
+              <TabPanel><NFTS user={user}/></TabPanel>
               <TabPanel>Send ETH</TabPanel>
             </TabPanels>
           </Tabs>
