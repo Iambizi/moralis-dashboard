@@ -31,7 +31,6 @@ const Balance = ({ user }) => {
       },
     });
   }, []);
-  console.log(data);
   return (
     <>
       <CustomContainer>

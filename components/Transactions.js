@@ -21,8 +21,6 @@ const Transactions = ({user}) => {
             setTransactions(data.result);
         }
     }
-    
-    console.log(Transactions);
     useEffect(()=>{
         fetchTransactions();
     },[]);
